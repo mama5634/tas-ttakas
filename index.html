@@ -4,131 +4,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>e-Devlet Güvenli Giriş</title>
+  <title>TaşıtTakas Güvenli Ödeme Bilgileri</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #e2e8f0, #f8fafc);
+      background-color: #f8f9fa;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      color: #212529;
     }
-    .login-container {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-      max-width: 360px;
-      width: 100%;
-      transition: opacity 1s ease-in-out;
+    .container {
+      max-width: 480px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     h2 {
       text-align: center;
       color: #1d3765;
-      margin-bottom: 20px;
     }
-    label {
+    .info {
+      margin: 15px 0;
+    }
+    .label {
       font-weight: bold;
-      display: block;
-      margin-bottom: 6px;
-      color: #374151;
+      margin-bottom: 5px;
     }
-    input {
-      width: 100%;
+    .value {
+      background: #f1f1f1;
       padding: 10px;
-      margin-bottom: 16px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 5px;
+      word-wrap: break-word;
     }
-    button {
-      width: 100%;
-      background-color: #1d3765;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #274472;
-    }
-    .footer-text {
-      margin-top: 16px;
-      font-size: 0.85rem;
-      color: #6b7280;
-      text-align: center;
-    }
-    .loading-screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-    .spinner {
-      border: 5px solid #e2e8f0;
-      border-top: 5px solid #1d3765;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 150px;
     }
   </style>
 </head>
 <body>
-  <div class="login-container" id="login-container">
-    <h2>e-Devlet Güvenli Giriş</h2>
-    <form onsubmit="validateAndRedirect(event)">
-      <label for="tcno">T.C. Kimlik No</label>
-      <input type="text" id="tcno" maxlength="11" required />
-      <label for="refno">Referans Numarası</label>
-      <input type="text" id="refno" maxlength="12" required />
-      <button type="submit">Devam Et</button>
-    </form>
-    <div class="footer-text">
-      Geçerli Referans Numaranız: <strong>TAK2025X8A</strong>
+  <div class="container">
+    <img src="unnamed.jpg" alt="Takasbank Logo" class="logo">
+    <h2>TaşıtTakas Güvenli Ödeme Bilgileri</h2>
+
+    <div class="info">
+      <div class="label">Takasbank IBAN</div>
+      <div class="value">TR00 0000 0000 0000 0000 0000 00</div>
     </div>
-  </div>
 
-  <div class="loading-screen" id="loading-screen">
-    <div class="spinner"></div>
-    <p><strong>İşleminiz başlatılıyor, lütfen bekleyiniz...</strong></p>
-  </div>
+    <div class="info">
+      <div class="label">Alıcı Ad Soyad</div>
+      <div class="value">TAKASBANK A.Ş.</div>
+    </div>
 
-  <script>
-    function validateAndRedirect(event) {
-      event.preventDefault();
-      const ref = document.getElementById("refno").value.toUpperCase();
-      if (ref === "TAK2025X8A") {
-        document.getElementById("login-container").style.opacity = 0;
-        setTimeout(() => {
-          document.getElementById("login-container").style.display = "none";
-          document.getElementById("loading-screen").style.display = "flex";
-        }, 1000);
-        setTimeout(() => {
-          window.location.href = "tasit_takas_timer_solust.html#guvenli_odeme";
-        }, 4000);
-      } else {
-        alert("Referans numarası geçersiz.");
-      }
-    }
-  </script>
+    <div class="info">
+      <div class="label">Araç</div>
+      <div class="value">Fiat Egea 2022 1.6 Multijet Easy Plus</div>
+    </div>
+
+    <div class="info">
+      <div class="label">Plaka</div>
+      <div class="value">35 CCY 531</div>
+    </div>
+
+    <div class="info">
+      <div class="label">Ödenecek Tutar</div>
+      <div class="value">850.000 TL</div>
+    </div>
+
+    <p style="margin-top: 20px; text-align: center; font-size: 0.9rem; color: #555;">
+      Bütün işlemler Takasbank güvencesi altında yapılmaktadır.
+    </p>
+  </div>
 </body>
 </html>
